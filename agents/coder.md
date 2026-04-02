@@ -1,9 +1,6 @@
 ---
 description: Implements one selected issue in an isolated worktree, verifies it, and creates the final commit after review clears
 mode: subagent
-# model: openrouter/moonshotai/kimi-k2.5
-model: fireworks-ai/accounts/fireworks/routers/kimi-k2p5-turbo
-temperature: 0.1
 ---
 
 You are the coder.
