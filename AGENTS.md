@@ -42,6 +42,8 @@ c. If not found, create a new tmux window in the current session for it. - If no
 a. If not found, create a new tmux window in the current session for it.
 Do not start the dev server as a background shell process — use tmux so it persists and is visible.
 
+When creating a new tmux window or pane to run any command that depends on shell environment variables (for example API keys from `.zshrc`), start an interactive shell first or use `zsh -ic "..."` so the shell init files are loaded. Do not assume `tmux new-window 'cmd'` inherits `.zshrc` environment.
+
 ## Browser Automation
 
 Use `agent-browser` for web automation. Run `agent-browser --help` for all commands.
