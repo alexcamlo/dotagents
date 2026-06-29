@@ -17,6 +17,40 @@
 - Typecheck when done making a series of code changes
 - Prefer running single tests, not the whole test suite
 - tmux path: `/opt/homebrew/bin/tmux`
+- herdr path: `herdr`
+
+## Worktree / CWD Safety
+
+Before editing files:
+
+- Check `pwd`, repo root, branch, and `git status --short`.
+- If the user mentions `.pi/worktrees/...`, operate there, not the main checkout.
+- If the intended worktree/repo is ambiguous, ask before editing.
+- Use relative paths from the repo root for read/write/edit tools.
+- In the final response, mention worktree/branch when relevant.
+
+## Tool Discipline
+
+- Before `edit`, read enough surrounding context so `oldText` is unique.
+- For repeated text, use a script or larger unique blocks; do not submit duplicate `oldText` replacements.
+- For search terms beginning with `-`, use `rg -- '--flag'` so ripgrep does not treat the pattern as an option.
+- Do not pass multiple paths as one string to file tools; search paths separately or use shell.
+- Prefer targeted, repo-relative paths.
+
+## Stock / Project Patterns First
+
+Prefer official generators, stock components, and existing project patterns before custom code.
+
+For UI/frontend work:
+
+- Inspect the project setup first: `components.json`, local `components/ui/*` wrappers, nearby screens/components, and package scripts.
+- Prefer configured shadcn components/generator when applicable.
+- Use existing local primitives, design-system tokens, CSS variables, aliases, and framework/library recommended patterns.
+- Match adjacent typography, spacing, border radius, shadows, density, and responsive behavior before inventing styles.
+- Avoid raw hex values or one-off classes in components when project tokens/classes exist.
+- Keep close to stock shadcn/project output unless the user asks for a custom visual direction.
+- Preserve accessibility: labels, focus states, keyboard use, touch targets, contrast.
+- If deviating from stock/project patterns, explain why first.
 
 If Claude Code:
 
@@ -33,16 +67,33 @@ If Claude Code:
 - Make the plan extremely concise. Sacrifice grammar for concision.
 - At the end of each plan, list unresolved questions, if any.
 
+## Subagent Workflow Shortcuts
+
+When the user asks for common review/delegation workflows, prefer existing pi-subagents prompt shortcuts instead of inventing long ad-hoc orchestration:
+
+- `/parallel-review` for fresh-context parallel review of current work.
+- `/parallel-review autofix` to synthesize and apply only fixes worth doing now.
+- `/review-loop` for parent-controlled worker/reviewer/fix cycles until clean or capped.
+- `/gather-context-and-clarify` before editing unclear work.
+- `/parallel-context-build` or `/parallel-handoff-plan` for large unknown tasks.
+- `/parallel-cleanup` for post-implementation cleanup review.
+
 ## Dev Server Convention
 
-A dev server (`pnpm dev`) typically runs in a tmux window within the current session. Before starting a new dev server: 0. Check if something is running in the expected port (for pnpm and npm port is 3000) - If yes:
-a. Check for an existing tmux window/pane running the dev server (`tmux list-windows`, `tmux list-panes`).
-b. If found, restart it there (send `C-c` then re-run the command in that pane).
-c. If not found, create a new tmux window in the current session for it. - If not:
-a. If not found, create a new tmux window in the current session for it.
-Do not start the dev server as a background shell process — use tmux so it persists and is visible.
+A dev server (`pnpm dev`) should run in the current terminal session manager, not as a background shell process.
 
-When creating a new tmux window or pane to run any command that depends on shell environment variables (for example API keys from `.zshrc`), start an interactive shell first or use `zsh -ic "..."` so the shell init files are loaded. Do not assume `tmux new-window 'cmd'` inherits `.zshrc` environment.
+Before starting a new dev server:
+
+0. Detect the session manager:
+   - If inside tmux (`$TMUX` is set), use tmux windows/panes. tmux path: `/opt/homebrew/bin/tmux`.
+   - If inside herdr, use the corresponding herdr window/pane workflow.
+   - If inside neither, prefer creating/entering a tmux session before starting the server.
+1. Check if something is running on the expected port (for pnpm and npm, port 3000).
+2. If yes, check for an existing tmux/herdr window or pane running the dev server.
+3. If found, restart it there (send `C-c`, then re-run the command in that pane).
+4. If not found, create a new tmux/herdr window or pane in the current session and run it there.
+
+When creating a new tmux/herdr window or pane to run any command that depends on shell environment variables (for example API keys from `.zshrc`), start an interactive shell first or use `zsh -ic "..."` so the shell init files are loaded. Do not assume newly created windows/panes inherit `.zshrc` environment.
 
 ## Browser Automation
 
