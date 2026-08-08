@@ -7,9 +7,7 @@ Shared agents, contracts, commands, and skills for `~/.agents`.
 ```text
 .
 ├── AGENTS.md
-├── agents/
 ├── commands/
-├── contracts/
 └── skills/
 ```
 
@@ -19,9 +17,7 @@ Point your local `~/.agents` entries at this repo:
 
 ```bash
 ln -sfn "$PWD/AGENTS.md" ~/.agents/AGENTS.md
-ln -sfn "$PWD/agents" ~/.agents/agents
 ln -sfn "$PWD/commands" ~/.agents/commands
-ln -sfn "$PWD/contracts" ~/.agents/contracts
 ln -sfn "$PWD/skills" ~/.agents/skills
 ```
 

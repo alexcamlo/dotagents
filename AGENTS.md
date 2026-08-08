@@ -19,24 +19,6 @@
 - tmux path: `/opt/homebrew/bin/tmux`
 - herdr path: `herdr`
 
-## Worktree / CWD Safety
-
-Before editing files:
-
-- Check `pwd`, repo root, branch, and `git status --short`.
-- If the user mentions `.pi/worktrees/...`, operate there, not the main checkout.
-- If the intended worktree/repo is ambiguous, ask before editing.
-- Use relative paths from the repo root for read/write/edit tools.
-- In the final response, mention worktree/branch when relevant.
-
-## Tool Discipline
-
-- Before `edit`, read enough surrounding context so `oldText` is unique.
-- For repeated text, use a script or larger unique blocks; do not submit duplicate `oldText` replacements.
-- For search terms beginning with `-`, use `rg -- '--flag'` so ripgrep does not treat the pattern as an option.
-- Do not pass multiple paths as one string to file tools; search paths separately or use shell.
-- Prefer targeted, repo-relative paths.
-
 ## Stock / Project Patterns First
 
 Prefer official generators, stock components, and existing project patterns before custom code.
@@ -58,8 +40,7 @@ If Claude Code:
 
 ## Git Workflow
 
-- Branch from `main` for changes
-- Commit messages: imperative, concise (e.g., "Add user auth middleware")
+- Use Conventional Commit specification for commit messages
 - Don't merge long-lived branches without review
 
 ### Plans
@@ -71,9 +52,9 @@ If Claude Code:
 
 When the user asks for common review/delegation workflows, prefer existing pi-subagents prompt shortcuts instead of inventing long ad-hoc orchestration:
 
+- `/review-loop` for parent-controlled worker/reviewer/fix cycles until clean or capped. (PREFERRED)
 - `/parallel-review` for fresh-context parallel review of current work.
 - `/parallel-review autofix` to synthesize and apply only fixes worth doing now.
-- `/review-loop` for parent-controlled worker/reviewer/fix cycles until clean or capped.
 - `/gather-context-and-clarify` before editing unclear work.
 - `/parallel-context-build` or `/parallel-handoff-plan` for large unknown tasks.
 - `/parallel-cleanup` for post-implementation cleanup review.
