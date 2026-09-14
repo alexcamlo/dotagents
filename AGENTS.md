@@ -5,6 +5,7 @@
 - Commit secrets, API keys, or tokens
 - Use rm/rmdir — use `trash` instead
 - Use `git rm` except for tracked files intentionally being removed
+- Pass model/thinking overrides to subagents — omit them so worker/reviewer use configured defaults unless I explicitly ask.
 
 ⚠️ Ask first:
 
