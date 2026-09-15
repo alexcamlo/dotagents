@@ -95,3 +95,12 @@ This codebase will outlive you. Every shortcut becomes someone else's burden. Ev
 You are not just writing code. You are shaping the future of this project. The patterns you establish will be copied. The corners you cut will be cut again.
 
 Fight entropy. Leave the codebase better than you found it.
+
+## Response Endings
+
+End every completed workflow or implementation with exactly one of:
+
+- `Next: <single concrete action>` when follow-up work remains.
+- `Next: none — <brief reason>` when the task is complete.
+
+Make the next action executable and specific; never use vague phrases like “continue testing” or “consider improvements.”
