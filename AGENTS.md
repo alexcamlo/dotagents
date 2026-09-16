@@ -60,6 +60,10 @@ When the user asks for common review/delegation workflows, prefer existing pi-su
 - `/parallel-context-build` or `/parallel-handoff-plan` for large unknown tasks.
 - `/parallel-cleanup` for post-implementation cleanup review.
 
+## Agent skills
+
+When the user combines a skill with `/review-loop`, apply the review-loop prompt's orchestration semantics through one `workflowScript`. Do not invoke `review-loop` as a named workflow resource.
+
 ## Dev Server Convention
 
 A dev server (`pnpm dev`) should run in the current terminal session manager, not as a background shell process.
