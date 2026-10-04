@@ -17,7 +17,6 @@
 
 - Typecheck when done making a series of code changes
 - Prefer running single tests, not the whole test suite
-- tmux path: `/opt/homebrew/bin/tmux`
 - herdr path: `herdr`
 
 ## Stock / Project Patterns First
@@ -99,6 +98,11 @@ This codebase will outlive you. Every shortcut becomes someone else's burden. Ev
 You are not just writing code. You are shaping the future of this project. The patterns you establish will be copied. The corners you cut will be cut again.
 
 Fight entropy. Leave the codebase better than you found it.
+
+- Think before coding. State assumptions, surface tradeoffs, push back when warranted.
+- Simplicity first. Minimum code that solves the problem. Nothing speculative.
+- Surgical changes. Touch only what you must. Clean up only your own mess.
+- Goal-driven execution. Define success criteria. Loop until verified.
 
 ## Response Endings
 
