@@ -3,9 +3,10 @@
 🚫 Never:
 
 - Commit secrets, API keys, or tokens
-- Use rm/rmdir — use `trash` instead
+- Use rm/rmdir on project or home files — use `trash` instead (scratch files in /tmp are fine)
 - Use `git rm` except for tracked files intentionally being removed
-- Pass model/thinking overrides to subagents — omit them so worker/reviewer use configured defaults unless I explicitly ask.
+- Touch files, components or features I didn't name. Ask before widening scope.
+- Discard, stage or commit unrelated dirty work.
 
 ⚠️ Ask first:
 
@@ -17,7 +18,8 @@
 
 - Typecheck when done making a series of code changes
 - Prefer running single tests, not the whole test suite
-- herdr path: `herdr`
+- Wrap long or browser commands in `timeout` (e.g. `timeout 120 agent-browser …`); give each agent-browser run a unique `--session` and close it afterwards.
+- If ~15 tool calls of reading haven't produced an edit, stop and either edit or report the blocker.
 
 ## Stock / Project Patterns First
 
@@ -34,55 +36,20 @@ For UI/frontend work:
 - Preserve accessibility: labels, focus states, keyboard use, touch targets, contrast.
 - If deviating from stock/project patterns, explain why first.
 
-If Claude Code:
-
-- For npm/pnpm builds, dev servers, database ops, downloads: retry with `dangerouslyDisableSandbox: true` on sandbox failure
-
 ## Git Workflow
 
 - Use Conventional Commit specification for commit messages
 - Don't merge long-lived branches without review
 
-### Plans
+## Dev Server
 
-- Make the plan extremely concise. Sacrifice grammar for concision.
-- At the end of each plan, list unresolved questions, if any.
-
-## Subagent Workflow Shortcuts
-
-When the user asks for common review/delegation workflows, prefer existing pi-subagents prompt shortcuts instead of inventing long ad-hoc orchestration:
-
-- `/review-loop` for parent-controlled worker/reviewer/fix cycles until clean or capped. (PREFERRED)
-- `/parallel-review` for fresh-context parallel review of current work.
-- `/parallel-review autofix` to synthesize and apply only fixes worth doing now.
-- `/gather-context-and-clarify` before editing unclear work.
-- `/parallel-context-build` or `/parallel-handoff-plan` for large unknown tasks.
-- `/parallel-cleanup` for post-implementation cleanup review.
-
-## Agent skills
-
-When the user combines a skill with `/review-loop`, apply the review-loop prompt's orchestration semantics through one `workflowScript`. Do not invoke `review-loop` as a named workflow resource.
-
-## Dev Server Convention
-
-A dev server (`pnpm dev`) should run in the current terminal session manager, not as a background shell process.
-
-Before starting a new dev server:
-
-0. Detect the session manager:
-   - If inside tmux (`$TMUX` is set), use tmux windows/panes. tmux path: `/opt/homebrew/bin/tmux`.
-   - If inside herdr, use the corresponding herdr window/pane workflow.
-   - If inside neither, prefer creating/entering a tmux session before starting the server.
-1. Check if something is running on the expected port (for pnpm and npm, port 3000).
-2. If yes, check for an existing tmux/herdr window or pane running the dev server.
-3. If found, restart it there (send `C-c`, then re-run the command in that pane).
-4. If not found, create a new tmux/herdr window or pane in the current session and run it there.
-
-When creating a new tmux/herdr window or pane to run any command that depends on shell environment variables (for example API keys from `.zshrc`), start an interactive shell first or use `zsh -ic "..."` so the shell init files are loaded. Do not assume newly created windows/panes inherit `.zshrc` environment.
+- Before starting one, check whether a dev server for this project is already running, and reuse it or restart it on the same port. Don't start another one on a new port.
+- Run it however the harness supports (background task, or a herdr/tmux pane if I'm in one). Use `zsh -ic` if it needs env vars from `.zshrc`.
+- Stop servers you started when the task is done, unless I'm still using them.
 
 ## Browser Automation
 
-Use `agent-browser` for web automation. Run `agent-browser --help` for all commands.
+Use the harness's built-in preview/browser tools when they exist (e.g. T3 Code preview); otherwise use `agent-browser`. Run `agent-browser --help` for all commands.
 
 Core workflow:
 
@@ -91,13 +58,7 @@ Core workflow:
 3. `agent-browser click @e1` / `fill @e2 "text"` - Interact using refs
 4. Re-snapshot after page changes
 
-## Philosophy
-
-This codebase will outlive you. Every shortcut becomes someone else's burden. Every hack compounds into technical debt that slows the whole team down.
-
-You are not just writing code. You are shaping the future of this project. The patterns you establish will be copied. The corners you cut will be cut again.
-
-Fight entropy. Leave the codebase better than you found it.
+## Principles
 
 - Think before coding. State assumptions, surface tradeoffs, push back when warranted.
 - Simplicity first. Minimum code that solves the problem. Nothing speculative.
@@ -106,7 +67,7 @@ Fight entropy. Leave the codebase better than you found it.
 
 ## Response Endings
 
-End every completed workflow or implementation with exactly one of:
+When replying to me (not when returning output to a parent agent), end every completed workflow or implementation with exactly one of:
 
 - `Next: <single concrete action>` when follow-up work remains.
 - `Next: none — <brief reason>` when the task is complete.
