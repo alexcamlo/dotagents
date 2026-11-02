@@ -20,6 +20,7 @@
 - Prefer running single tests, not the whole test suite
 - Wrap long or browser commands in `timeout` (e.g. `timeout 120 agent-browser …`); give each agent-browser run a unique `--session` and close it afterwards.
 - If ~15 tool calls of reading haven't produced an edit, stop and either edit or report the blocker.
+- Write shareble links with the machine's LAN IP instead of localhost.
 
 ## Stock / Project Patterns First
 
